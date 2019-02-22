@@ -1,0 +1,22 @@
+.content {
+  text-align: start;
+  color: gray;
+  margin-top: 50px;
+
+}
+
+.article-title {
+  margin: 0;
+}
+
+.article-date {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+.remove-btn {
+  color: red;
+}
