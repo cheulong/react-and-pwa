@@ -56,7 +56,7 @@ class EditArticle extends Component {
   saveArticle = (title,content) => {
     this.article.title = title;
     this.article.content = content;
-    const objIndex = this.articleList.findIndex((obj => obj.id == this.props.match.params.id));
+    const objIndex = this.articleList.findIndex((obj => obj.id === this.props.match.params.id));
     this.articleList[objIndex].title=this.article.title;
     this.articleList[objIndex].content=this.article.content;
     localStorage.clear();

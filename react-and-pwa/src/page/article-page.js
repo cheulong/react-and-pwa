@@ -16,7 +16,7 @@ class Article extends Component {
   }
 
   removeArticle = () => {
-    const objIndex = this.articleList.findIndex((obj => obj.id == this.props.match.params.id));
+    const objIndex = this.articleList.findIndex((obj => obj.id === this.props.match.params.id));
     this.articleList.splice(objIndex,1);
     localStorage.clear();
     localStorage.setItem('articles', JSON.stringify(this.articleList));

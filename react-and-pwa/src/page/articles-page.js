@@ -12,18 +12,18 @@ class Articles extends Component {
     const articleList = Object.assign([], this.state.articleList);
     articleList.splice(id,1);
     this.setState({articleList:articleList})
-    localStorage.clear();
-    localStorage.setItem('articles', JSON.stringify(articleList));
+    // localStorage.clear();
+    // localStorage.setItem('articles', JSON.stringify(articleList));
   };
 
   renderArticleList = () => {
-    return this.state.articleList.map((article,index) => <li><ArticleBrief article={article} removeArticle={()=>this.removeArticle(index)}/></li>);
+    return this.state.articleList.map((article,index) => <li></li>);
   }
 
   render() {
     return (
         <div className="content">
-        <div className="page-title">
+          <div className="page-title">
             <h1 className="title">Articles</h1>
             <hr/>
           </div>
