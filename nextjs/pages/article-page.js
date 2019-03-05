@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import Link from 'next/link';
-import { showArticle } from './actions'
+import { showArticles } from './actions';
+import { connect } from 'react-redux';
 
 class ArticlePage extends Component {
+  static getInitialProps({query}) {
+    return {query}
+  }
+
   render() {
-    console.log(this.props);
+    // console.log(this.props.query.id);
     
     return (
       <div className="article-content">
@@ -23,8 +28,9 @@ class ArticlePage extends Component {
 }
 
 const mapStateToProps = state => ({
-  article: showArticle(state)
+  articles: showArticles(state)
   
 })
 
-export default ArticlePage;
+
+export default (ArticlePage);

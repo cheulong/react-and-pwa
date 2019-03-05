@@ -5,5 +5,10 @@ export const showArticles = (articles) => ({
 
 export const showArticle = (article) => ({
   type: 'SHOW_ARTICLE',
-  article
+  payload: article
+})
+
+export const removeArticle = (id) => ({
+  type: 'REMOVE_ARTICLE',
+  id: id
 })

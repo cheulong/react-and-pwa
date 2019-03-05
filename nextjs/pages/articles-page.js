@@ -1,15 +1,22 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { showArticles } from './actions'
+import { showArticle, removeArticle, showArticles } from './actions'
 import ArticleBrief from '../component/article-brief';
 
 class ArticlesPage extends Component {
 
   renderArticlesList = () => {
-    return this.props.articles.articles.articles.map(article => <ArticleBrief article={article} />)
+    return this.props.articles.articles.articles.map((article,index) => <ArticleBrief index={index} selectArticle={this.selectArticle} article={article} deleteContact={this.deleteContact}/>)
   }
-  
+  deleteContact = (e, index) => {
+    e.preventDefault();
+    this.props.deleteContact1(index);
+  }
+  selectArticle = (e, article) => {
+    e.preventDefault();
+    this.props.showArticle(article);
+  }
   render() {
   console.log(this.props.articles);
 
@@ -75,7 +82,13 @@ const mapStateToProps = state => ({
   
 })
 
-export default connect(
-  mapStateToProps
+const mapDispatchToProps = (dispatch) => ({
+    deleteContact1: index =>dispatch(removeArticle(index)),
+    showArticle: article =>dispatch(showArticle(article))
+  })
+
+  export default connect(
+  mapStateToProps,
+  mapDispatchToProps
 )(ArticlesPage);
 
