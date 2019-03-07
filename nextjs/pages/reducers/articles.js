@@ -1,4 +1,6 @@
-const articleList =   [{
+
+const initialState =   {
+  articleList:[{
   "id":1,
   "title":"<h2>1Duo Reges: constuctio interrete.</h2>",
   "content":"<p>is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen</p>"
@@ -17,27 +19,26 @@ const articleList =   [{
   "id":4,
   "title":"<h2>4Duo Reges: constuctio interrete.</h2>",
   "content":"<p>is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen</p>"
-}];
+}],
+article: {
+  "id":4,
+  "title":"<h2>4Duo Reges: constuctio interrete.</h2>",
+  "content":"<p>is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen</p>"
+}
+};
 
-const articles = (state = articleList, action) => {
+
+const articles = (state = initialState, action) => {
   switch (action.type) {
-    case 'ADD_TODO':
-      return [
-        ...state,
-        {
-          id: action.id,
-          text: action.text,
-          completed: false
-        }
-      ]
+    case 'SHOW_ARTICLES':    
+      return state.articleList;
       break;
-    case 'SHOW_ARTICLES':
-      return state;
+    case 'SHOW_ARTICLE':
+      return state.article;
       break;
-
     case 'REMOVE_ARTICLE':
       const articles = Object.assign([], state);      
-      articles.splice(action.id, 1);
+      articles.articleList.splice(action.id, 1);
       return state=articles;
       break;
     default:

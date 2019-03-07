@@ -1,6 +1,10 @@
 import { combineReducers } from 'redux'
 import articles from './articles'
+import activeArticle from './active-article';
 
-export default combineReducers({
-  articles
-})
+const allReducers = combineReducers({
+  articles,
+  activeArticle
+});
+
+export default allReducers;
