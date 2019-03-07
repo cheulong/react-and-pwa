@@ -3,11 +3,11 @@ import { connect } from 'react-redux'
 import Clock from './Clock'
 import AddCount from './AddCount'
 import React, { Component } from 'react'
-import { removeArticle } from '../store'
+import { removeArticle, selectArticle } from '../store'
 
 class Articles extends Component {
   render(){
-    const { articles, deleteArticle } = this.props
+    const { articles, deleteArticle, selectArticle } = this.props
     
     return(
       <div className="App">
@@ -15,10 +15,9 @@ class Articles extends Component {
             <div className="page-title">
               <h1 className="title">Articles</h1>
             </div>
-          {articles.map((article,index) =>  <div className="article-brief-container">
-        {/* <Link href={{ pathname: '/article-page', query: { id: `${this.props.article.id}` } }} as={"/article/"+`${this.props.article.id}`}><span dangerouslySetInnerHTML={{__html: this.props.article.title}}></span></Link> */}
-         <span dangerouslySetInnerHTML={{__html: article.title}}></span>
-         <p className="article-date"><small>20:41 | 3 Feb 2-19 | <a href="/#" ><span> Edit</span></a> | <button onClick= {()=> deleteArticle(index)}><span className="remove-btn"> Remove </span></button></small></p>
+          {articles.map((article) =>  <div className="article-brief-container">
+        <Link href={{ pathname: '/article', query: { id: `${article.id}` } }} as={"/article/"+`${article.id}`}><span onClick= {()=> selectArticle(article)}  dangerouslySetInnerHTML={{__html: article.title}}></span></Link>
+         <p className="article-date"><small>20:41 | 3 Feb 2-19 | <Link href="/edit-article" ><span> Edit</span></Link> | <button onClick= {()=> deleteArticle(article.id)}><span className="remove-btn"> Remove </span></button></small></p>
  </div>)}
          </div>
           <style jsx>
@@ -64,11 +63,11 @@ margin: auto;
          }
          `}
          </style>
-         {/* <nav>
-           <Link href={linkTo}>
+         <nav>
+           <Link href="/article">
              <a>Navigate</a>
            </Link>
-         </nav> */}
+         </nav>
  </div>
     )
   }
@@ -83,7 +82,8 @@ margin: auto;
 const mapStateToProps = ({ articles }) => ({ articles })
 
 const mapDispatchToProps = (dispatch) => ({
-  deleteArticle: index =>dispatch(removeArticle(index))
+  deleteArticle: index =>dispatch(removeArticle(index)),
+  selectArticle: article =>dispatch(selectArticle(article))
 })
 
 export default connect(

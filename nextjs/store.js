@@ -27,14 +27,20 @@ const exampleInitialState = {
       "title":"<h2>4Duo Reges: constuctio interrete.</h2>",
       "content":"<p>is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen</p>"
     }
-  ]
+  ],
+  selectedArticle: {
+    "id":1,
+    "title":"<h2>1Duo Reges: constuctio interrete.</h2>",
+    "content":"<p>is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen</p>"
+  }
 }
 
 export const actionTypes = {
   ADD: 'ADD',
   TICK: 'TICK',
   SHOW_ARTICLES: 'SHOW_ARTICLES',
-  REMOVE_ARTICLE: 'REMOVE_ARTICLE'
+  REMOVE_ARTICLE: 'REMOVE_ARTICLE',
+  SELECT_ARTICLE: 'SELECT_ARTICLE'
 
 }
 
@@ -51,11 +57,18 @@ export const reducer = (state = exampleInitialState, action) => {
     //     count: state.count + 1
     //   })
     case actionTypes.SHOW_ARTICLES:
+    
       return state.articles;
 
+    case actionTypes.SELECT_ARTICLE:
+    return Object.assign({}, state, {
+      selectedArticle: action.article
+    })
+
     case actionTypes.REMOVE_ARTICLE:
-    const newState = Object.assign([], state.articles);      
-    newState.splice(action.id, 1);
+    const newState = Object.assign([], state.articles);     
+    const objIndex = newState.findIndex((obj => obj.id === action.id)); 
+    newState.splice(objIndex, 1);
     return Object.assign({}, state, {
       articles: newState
     })
@@ -83,6 +96,10 @@ export const addCount = () => dispatch => {
 
 export const showArticles = () => dispatch => {
   return dispatch({ type: actionTypes.SHOW_ARTICLES })
+}
+
+export const selectArticle = (article) => dispatch => {
+  return dispatch({ type: actionTypes.SELECT_ARTICLE, article })
 }
 
 export const removeArticle = (id) => dispatch => {

@@ -1568,7 +1568,7 @@ function (_App) {
 /*!******************!*\
   !*** ./store.js ***!
   \******************/
-/*! exports provided: actionTypes, reducer, serverRenderClock, startClock, addCount, showArticles, removeArticle, initStore */
+/*! exports provided: actionTypes, reducer, serverRenderClock, startClock, addCount, showArticles, selectArticle, removeArticle, initStore */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1579,6 +1579,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "startClock", function() { return startClock; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addCount", function() { return addCount; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "showArticles", function() { return showArticles; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectArticle", function() { return selectArticle; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeArticle", function() { return removeArticle; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initStore", function() { return initStore; });
 /* harmony import */ var _babel_runtime_corejs2_core_js_date_now__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/date/now */ "./node_modules/@babel/runtime-corejs2/core-js/date/now.js");
@@ -1616,13 +1617,19 @@ var exampleInitialState = {
     "id": 4,
     "title": "<h2>4Duo Reges: constuctio interrete.</h2>",
     "content": "<p>is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen</p>"
-  }]
+  }],
+  selectedArticle: {
+    "id": 1,
+    "title": "<h2>1Duo Reges: constuctio interrete.</h2>",
+    "content": "<p>is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen</p>"
+  }
 };
 var actionTypes = {
   ADD: 'ADD',
   TICK: 'TICK',
   SHOW_ARTICLES: 'SHOW_ARTICLES',
-  REMOVE_ARTICLE: 'REMOVE_ARTICLE' // REDUCERS
+  REMOVE_ARTICLE: 'REMOVE_ARTICLE',
+  SELECT_ARTICLE: 'SELECT_ARTICLE' // REDUCERS
 
 };
 var reducer = function reducer() {
@@ -1643,10 +1650,18 @@ var reducer = function reducer() {
     case actionTypes.SHOW_ARTICLES:
       return state.articles;
 
+    case actionTypes.SELECT_ARTICLE:
+      return _babel_runtime_corejs2_core_js_object_assign__WEBPACK_IMPORTED_MODULE_1___default()({}, state, {
+        selectedArticle: action.article
+      });
+
     case actionTypes.REMOVE_ARTICLE:
       var newState = _babel_runtime_corejs2_core_js_object_assign__WEBPACK_IMPORTED_MODULE_1___default()([], state.articles);
 
-      newState.splice(action.id, 1);
+      var objIndex = newState.findIndex(function (obj) {
+        return obj.id === action.id;
+      });
+      newState.splice(objIndex, 1);
       return _babel_runtime_corejs2_core_js_object_assign__WEBPACK_IMPORTED_MODULE_1___default()({}, state, {
         articles: newState
       });
@@ -1687,6 +1702,14 @@ var showArticles = function showArticles() {
   return function (dispatch) {
     return dispatch({
       type: actionTypes.SHOW_ARTICLES
+    });
+  };
+};
+var selectArticle = function selectArticle(article) {
+  return function (dispatch) {
+    return dispatch({
+      type: actionTypes.SELECT_ARTICLE,
+      article: article
     });
   };
 };
