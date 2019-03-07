@@ -12128,7 +12128,7 @@ function (_App) {
 /*!******************!*\
   !*** ./store.js ***!
   \******************/
-/*! exports provided: actionTypes, reducer, serverRenderClock, startClock, addCount, showArticles, initStore */
+/*! exports provided: actionTypes, reducer, serverRenderClock, startClock, addCount, showArticles, removeArticle, initStore */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12139,6 +12139,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "startClock", function() { return startClock; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addCount", function() { return addCount; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "showArticles", function() { return showArticles; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeArticle", function() { return removeArticle; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initStore", function() { return initStore; });
 /* harmony import */ var _babel_runtime_corejs2_core_js_date_now__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/date/now */ "./node_modules/@babel/runtime-corejs2/core-js/date/now.js");
 /* harmony import */ var _babel_runtime_corejs2_core_js_date_now__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_date_now__WEBPACK_IMPORTED_MODULE_0__);
@@ -12159,19 +12160,19 @@ var exampleInitialState = {
   light: false,
   count: 0,
   articles: [{
-    "id": "1",
+    "id": 1,
     "title": "<h2>1Duo Reges: constuctio interrete.</h2>",
     "content": "<p>is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen</p>"
   }, {
-    "id": "2",
+    "id": 2,
     "title": "<h2>2Duo Reges: constuctio interrete.</h2>",
     "content": "<p>is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen</p>"
   }, {
-    "id": "3",
+    "id": 3,
     "title": "<h2>3Duo Reges: constuctio interrete.</h2>",
     "content": "<p>is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen</p>"
   }, {
-    "id": "4",
+    "id": 4,
     "title": "<h2>4Duo Reges: constuctio interrete.</h2>",
     "content": "<p>is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen</p>"
   }]
@@ -12193,19 +12194,21 @@ var reducer = function reducer() {
         lastUpdate: action.ts,
         light: !!action.light
       });
-
-    case actionTypes.ADD:
-      return _babel_runtime_corejs2_core_js_object_assign__WEBPACK_IMPORTED_MODULE_1___default()({}, state, {
-        count: state.count + 1
-      });
+    // case actionTypes.ADD:
+    //   return Object.assign({}, state, {
+    //     count: state.count + 1
+    //   })
 
     case actionTypes.SHOW_ARTICLES:
-      return state.articleList;
-    // case actionTypes.REMOVE_ARTICLE:
-    //   const articles = Object.assign([], state);      
-    //   articles.splice(action.id, 1);
-    //   console.log(articles);
-    // return state=articleList;
+      return state.articles;
+
+    case actionTypes.REMOVE_ARTICLE:
+      var newState = _babel_runtime_corejs2_core_js_object_assign__WEBPACK_IMPORTED_MODULE_1___default()([], state.articles);
+
+      newState.splice(action.id, 1);
+      return _babel_runtime_corejs2_core_js_object_assign__WEBPACK_IMPORTED_MODULE_1___default()({}, state, {
+        articles: newState
+      });
 
     default:
       return state;
@@ -12245,10 +12248,15 @@ var showArticles = function showArticles() {
       type: actionTypes.SHOW_ARTICLES
     });
   };
-}; // export const removeArticle = (id) => dispatch => {
-//   return dispatch({ type: actionTypes.REMOVE_ARTICLE, id})
-// }
-
+};
+var removeArticle = function removeArticle(id) {
+  return function (dispatch) {
+    return dispatch({
+      type: actionTypes.REMOVE_ARTICLE,
+      id: id
+    });
+  };
+};
 var initStore = function initStore() {
   var initialState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : exampleInitialState;
   return Object(redux__WEBPACK_IMPORTED_MODULE_2__["createStore"])(reducer, initialState, Object(redux_devtools_extension__WEBPACK_IMPORTED_MODULE_3__["composeWithDevTools"])(Object(redux__WEBPACK_IMPORTED_MODULE_2__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_4___default.a)));
