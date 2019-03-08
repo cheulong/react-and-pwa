@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../style/articles-page.css';
 import ArticleBrief from '../component/article-brief';
+import {Link } from 'react-router-dom';
 
 class Articles extends Component {
   constructor(props) {
@@ -30,6 +31,11 @@ class Articles extends Component {
           <ul>
             {this.renderArticleList()}
           </ul>
+          <nav>
+                  <Link to={"/add-article"}>
+                    <a>Add</a>
+                  </Link>
+                </nav>
         </div>
     );
   }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Articles from './page/articles-page';
 import Article from './page/article-page';
+import AddArticle from './page/add-article-page';
 import EditArticle from './page/edit-article-page';
 import { BrowserRouter, Route } from 'react-router-dom';
 
@@ -39,6 +40,7 @@ class App extends Component {
         <div className="App">
           <Route exact path='/' component={Articles}/>
           <Route path='/article/:id' component={Article}/>
+          <Route path='/add-article' component={AddArticle}/>
           <Route path='/editArticle/:id' component={EditArticle}/>
         </div>
       </BrowserRouter>

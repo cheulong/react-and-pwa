@@ -1,0 +1,91 @@
+import React, { Component } from 'react';
+import { EditorState, convertToRaw, ContentState } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import '../style/edit-article-page.css';
+import {Link } from 'react-router-dom';
+
+class EditArticle extends Component {
+  title ='<h2></h2>';
+  content='';
+  articleList='';
+  constructor(props) {
+    super(props);
+    this.articleList = JSON.parse(localStorage.getItem('articles'));
+    const contentBlock1 = htmlToDraft(this.title);
+    const contentBlock = htmlToDraft(this.content);
+    if (contentBlock1||contentBlock) {
+      const contentState1 = ContentState.createFromBlockArray(contentBlock1.contentBlocks);
+      const editorState1 = EditorState.createWithContent(contentState1);
+      const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
+      const editorState = EditorState.createWithContent(contentState);
+      this.state = {
+        editorState1,editorState
+      };
+    }
+  }
+
+  findArticle = (articleList) => { 
+    return articleList.id === this.props.match.params.id;
+  }
+
+  updateArticle = (articleList) => { 
+    if(articleList.id === this.props.match.params.id) {
+      articleList.title = this.article.title;
+      articleList.content = this.article.content;
+    }
+    return articleList.id === this.props.match.params.id;
+  }
+
+  onEditorStateChange1 = (editorState1) => {
+    this.setState({
+      editorState1,
+    });
+  };
+
+  onEditorStateChange = (editorState) => {
+    this.setState({
+      editorState,
+    });
+  };
+
+  saveArticle = (title,content) => {
+    this.articleList.push({id:''+(this.articleList.length+1) ,title:title,content:content});
+    console.log(this.articleList);
+    
+    localStorage.clear();
+    localStorage.setItem('articles', JSON.stringify(this.articleList));
+  }
+
+  render() {
+    const { editorState1, editorState } = this.state;
+    return (
+      <div className="article-content">
+      <div className="page-title">
+      <Link to={`/`}><h2>&lt; home</h2></Link>
+            <h1 className="title">Articles</h1>
+            <hr/>
+          </div>
+      <Editor
+          toolbarHidden
+          editorState={editorState1}
+          wrapperClassName="title__wrapper"
+          editorClassName="demo-editor"
+          onEditorStateChange={this.onEditorStateChange1}
+        />
+      <p className="article-date"><small><Link to='/'><button onClick={() =>this.saveArticle(draftToHtml(convertToRaw(editorState1.getCurrentContent())),draftToHtml(convertToRaw(editorState.getCurrentContent())))}><span className="save-btn"> Add </span></button></Link></small></p>
+      <hr/>
+        <Editor
+          editorState={editorState}
+          wrapperClassName="demo-wrapper"
+          editorClassName="demo-editor"
+          onEditorStateChange={this.onEditorStateChange}
+        />
+      </div>
+    );
+  }
+}
+
+export default EditArticle;
