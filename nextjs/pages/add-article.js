@@ -1,5 +1,9 @@
 import { Component } from 'react';
+import dynamic from 'next/dynamic'
 
+const DynamicComponentWithNoSSR1 = dynamic(() => import('../components/AddArticle1'), {
+  ssr: false
+})
 
 class AddArticle extends Component {
 
@@ -7,7 +11,7 @@ class AddArticle extends Component {
   render() {
     return(
       <div>
-        add article
+          <DynamicComponentWithNoSSR1 />
       </div>
     )
   }

@@ -14018,7 +14018,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 /*!******************!*\
   !*** ./store.js ***!
   \******************/
-/*! exports provided: actionTypes, reducer, serverRenderClock, startClock, addCount, showArticles, selectArticle, removeArticle, saveArticle, initStore */
+/*! exports provided: actionTypes, reducer, serverRenderClock, startClock, addCount, showArticles, selectArticle, removeArticle, addArticle, saveArticle, initStore */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -14031,6 +14031,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "showArticles", function() { return showArticles; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectArticle", function() { return selectArticle; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeArticle", function() { return removeArticle; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addArticle", function() { return addArticle; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "saveArticle", function() { return saveArticle; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initStore", function() { return initStore; });
 /* harmony import */ var _babel_runtime_corejs2_core_js_date_now__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/date/now */ "./node_modules/@babel/runtime-corejs2/core-js/date/now.js");
@@ -14080,7 +14081,8 @@ var actionTypes = {
   SHOW_ARTICLES: 'SHOW_ARTICLES',
   REMOVE_ARTICLE: 'REMOVE_ARTICLE',
   SELECT_ARTICLE: 'SELECT_ARTICLE',
-  SAVE_ARTICLE: 'SAVE_ARTICLE' // REDUCERS
+  SAVE_ARTICLE: 'SAVE_ARTICLE',
+  ADD_ARTICLE: 'ADD_ARTICLE' // REDUCERS
 
 };
 var reducer = function reducer() {
@@ -14093,10 +14095,17 @@ var reducer = function reducer() {
         lastUpdate: action.ts,
         light: !!action.light
       });
-    // case actionTypes.ADD:
-    //   return Object.assign({}, state, {
-    //     count: state.count + 1
-    //   })
+
+    case actionTypes.ADD_ARTICLE:
+      var newState2 = state.articles;
+      newState2.push({
+        'id': state.articles.length + 1,
+        "title": action.article.title,
+        "content": action.article.content
+      });
+      return _babel_runtime_corejs2_core_js_object_assign__WEBPACK_IMPORTED_MODULE_1___default()({}, state, {
+        articles: newState2
+      });
 
     case actionTypes.SHOW_ARTICLES:
       return _babel_runtime_corejs2_core_js_object_assign__WEBPACK_IMPORTED_MODULE_1___default()({}, state);
@@ -14185,6 +14194,14 @@ var removeArticle = function removeArticle(id) {
     return dispatch({
       type: actionTypes.REMOVE_ARTICLE,
       id: id
+    });
+  };
+};
+var addArticle = function addArticle(article) {
+  return function (dispatch) {
+    return dispatch({
+      type: actionTypes.ADD_ARTICLE,
+      article: article
     });
   };
 };

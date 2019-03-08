@@ -41,7 +41,8 @@ export const actionTypes = {
   SHOW_ARTICLES: 'SHOW_ARTICLES',
   REMOVE_ARTICLE: 'REMOVE_ARTICLE',
   SELECT_ARTICLE: 'SELECT_ARTICLE',
-  SAVE_ARTICLE: 'SAVE_ARTICLE'
+  SAVE_ARTICLE: 'SAVE_ARTICLE',
+  ADD_ARTICLE: 'ADD_ARTICLE'
 
 }
 
@@ -53,10 +54,16 @@ export const reducer = (state = exampleInitialState, action) => {
         lastUpdate: action.ts,
         light: !!action.light
       })
-    // case actionTypes.ADD:
-    //   return Object.assign({}, state, {
-    //     count: state.count + 1
-    //   })
+    case actionTypes.ADD_ARTICLE:
+    const newState2 = state.articles;
+    newState2.push({
+      'id':state.articles.length+1,
+      "title":action.article.title,
+      "content":action.article.content
+    })
+      return Object.assign({}, state, {
+        articles: newState2
+      })
     case actionTypes.SHOW_ARTICLES:
     
       return Object.assign({}, state);
@@ -77,7 +84,7 @@ export const reducer = (state = exampleInitialState, action) => {
     return Object.assign({}, state, {
       articles: newState
     })
-    
+
     case actionTypes.REMOVE_ARTICLE:
     const newState1 = Object.assign([], state.articles); 
         
@@ -121,6 +128,10 @@ export const selectArticle = (article) => dispatch => {
 
 export const removeArticle = (id) => dispatch => {
   return dispatch({ type: actionTypes.REMOVE_ARTICLE, id})
+}
+
+export const addArticle = (article) => dispatch => {
+  return dispatch({ type: actionTypes.ADD_ARTICLE, article})
 }
 
 export const saveArticle = (article) => dispatch => {
