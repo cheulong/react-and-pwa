@@ -3,11 +3,16 @@ import { connect } from 'react-redux'
 import Clock from './Clock'
 import AddCount from './AddCount'
 import React, { Component } from 'react'
-import { removeArticle, selectArticle } from '../store'
+import { removeArticle, selectArticle,showArticles } from '../store'
 
 class Articles extends Component {
+  componentWillMount() {
+    this.props.showArticles();
+    console.log('articel',this.props.articles);
+    
+  }
   render(){
-    const { articles, deleteArticle, selectArticle } = this.props
+    const {articles, deleteArticle, selectArticle } = this.props
     
     return(
       <div className="App">
@@ -17,7 +22,7 @@ class Articles extends Component {
             </div>
           {articles.map((article) =>  <div className="article-brief-container">
         <Link href={{ pathname: '/article', query: { id: `${article.id}` } }} as={"/article/"+`${article.id}`}><span onClick= {()=> selectArticle(article)}  dangerouslySetInnerHTML={{__html: article.title}}></span></Link>
-         <p className="article-date"><small>20:41 | 3 Feb 2-19 | <Link href="/edit-article" ><span> Edit</span></Link> | <button onClick= {()=> deleteArticle(article.id)}><span className="remove-btn"> Remove </span></button></small></p>
+         <p className="article-date"><small>20:41 | 3 Feb 2-19 | <Link href="/edit-article" ><span onClick= {()=> selectArticle(article)}> Edit</span></Link> | <button onClick= {()=> deleteArticle(article.id)}><span className="remove-btn"> Remove </span></button></small></p>
  </div>)}
          </div>
           <style jsx>
@@ -64,8 +69,8 @@ margin: auto;
          `}
          </style>
          <nav>
-           <Link href="/article">
-             <a>Navigate</a>
+           <Link href="/add-article">
+             <a>Add</a>
            </Link>
          </nav>
  </div>
@@ -83,7 +88,8 @@ const mapStateToProps = ({ articles }) => ({ articles })
 
 const mapDispatchToProps = (dispatch) => ({
   deleteArticle: index =>dispatch(removeArticle(index)),
-  selectArticle: article =>dispatch(selectArticle(article))
+  selectArticle: article =>dispatch(selectArticle(article)),
+  showArticles: () =>dispatch(showArticles())
 })
 
 export default connect(

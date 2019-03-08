@@ -12128,7 +12128,7 @@ function (_App) {
 /*!******************!*\
   !*** ./store.js ***!
   \******************/
-/*! exports provided: actionTypes, reducer, serverRenderClock, startClock, addCount, showArticles, selectArticle, removeArticle, initStore */
+/*! exports provided: actionTypes, reducer, serverRenderClock, startClock, addCount, showArticles, selectArticle, removeArticle, saveArticle, initStore */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12141,6 +12141,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "showArticles", function() { return showArticles; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "selectArticle", function() { return selectArticle; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeArticle", function() { return removeArticle; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "saveArticle", function() { return saveArticle; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initStore", function() { return initStore; });
 /* harmony import */ var _babel_runtime_corejs2_core_js_date_now__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/date/now */ "./node_modules/@babel/runtime-corejs2/core-js/date/now.js");
 /* harmony import */ var _babel_runtime_corejs2_core_js_date_now__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_date_now__WEBPACK_IMPORTED_MODULE_0__);
@@ -12188,7 +12189,8 @@ var actionTypes = {
   TICK: 'TICK',
   SHOW_ARTICLES: 'SHOW_ARTICLES',
   REMOVE_ARTICLE: 'REMOVE_ARTICLE',
-  SELECT_ARTICLE: 'SELECT_ARTICLE' // REDUCERS
+  SELECT_ARTICLE: 'SELECT_ARTICLE',
+  SAVE_ARTICLE: 'SAVE_ARTICLE' // REDUCERS
 
 };
 var reducer = function reducer() {
@@ -12207,22 +12209,38 @@ var reducer = function reducer() {
     //   })
 
     case actionTypes.SHOW_ARTICLES:
-      return state.articles;
+      return _babel_runtime_corejs2_core_js_object_assign__WEBPACK_IMPORTED_MODULE_1___default()({}, state);
 
     case actionTypes.SELECT_ARTICLE:
       return _babel_runtime_corejs2_core_js_object_assign__WEBPACK_IMPORTED_MODULE_1___default()({}, state, {
         selectedArticle: action.article
       });
 
-    case actionTypes.REMOVE_ARTICLE:
-      var newState = _babel_runtime_corejs2_core_js_object_assign__WEBPACK_IMPORTED_MODULE_1___default()([], state.articles);
-
+    case actionTypes.SAVE_ARTICLE:
+      var newState = state.articles;
       var objIndex = newState.findIndex(function (obj) {
-        return obj.id === action.id;
+        return obj.id === action.article.id;
       });
-      newState.splice(objIndex, 1);
+      newState[objIndex] = {
+        "id": action.article.id,
+        "title": action.article.title,
+        "content": action.article.content
+      };
       return _babel_runtime_corejs2_core_js_object_assign__WEBPACK_IMPORTED_MODULE_1___default()({}, state, {
         articles: newState
+      });
+
+    case actionTypes.REMOVE_ARTICLE:
+      var newState1 = _babel_runtime_corejs2_core_js_object_assign__WEBPACK_IMPORTED_MODULE_1___default()([], state.articles);
+
+      var objIndex1 = newState1.findIndex(function (obj) {
+        return obj.id === action.id;
+      });
+      console.log(objIndex1);
+      console.log(action.id);
+      newState1.splice(objIndex1, 1);
+      return _babel_runtime_corejs2_core_js_object_assign__WEBPACK_IMPORTED_MODULE_1___default()({}, state, {
+        articles: newState1
       });
 
     default:
@@ -12277,6 +12295,14 @@ var removeArticle = function removeArticle(id) {
     return dispatch({
       type: actionTypes.REMOVE_ARTICLE,
       id: id
+    });
+  };
+};
+var saveArticle = function saveArticle(article) {
+  return function (dispatch) {
+    return dispatch({
+      type: actionTypes.SAVE_ARTICLE,
+      article: article
     });
   };
 };

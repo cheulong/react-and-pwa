@@ -40,7 +40,8 @@ export const actionTypes = {
   TICK: 'TICK',
   SHOW_ARTICLES: 'SHOW_ARTICLES',
   REMOVE_ARTICLE: 'REMOVE_ARTICLE',
-  SELECT_ARTICLE: 'SELECT_ARTICLE'
+  SELECT_ARTICLE: 'SELECT_ARTICLE',
+  SAVE_ARTICLE: 'SAVE_ARTICLE'
 
 }
 
@@ -58,19 +59,35 @@ export const reducer = (state = exampleInitialState, action) => {
     //   })
     case actionTypes.SHOW_ARTICLES:
     
-      return state.articles;
+      return Object.assign({}, state);
 
     case actionTypes.SELECT_ARTICLE:
     return Object.assign({}, state, {
       selectedArticle: action.article
     })
 
-    case actionTypes.REMOVE_ARTICLE:
-    const newState = Object.assign([], state.articles);     
-    const objIndex = newState.findIndex((obj => obj.id === action.id)); 
-    newState.splice(objIndex, 1);
+    case actionTypes.SAVE_ARTICLE:
+    const newState =state.articles;     
+    const objIndex = newState.findIndex((obj => obj.id === action.article.id)); 
+    newState[objIndex]={
+      "id":action.article.id,
+      "title":action.article.title,
+      "content":action.article.content
+    };
     return Object.assign({}, state, {
       articles: newState
+    })
+    
+    case actionTypes.REMOVE_ARTICLE:
+    const newState1 = Object.assign([], state.articles); 
+        
+    const objIndex1 = newState1.findIndex((obj => obj.id === action.id)); 
+    console.log(objIndex1);
+    console.log(action.id);
+    
+    newState1.splice(objIndex1, 1);
+    return Object.assign({}, state, {
+      articles: newState1
     })
 
     default:
@@ -104,6 +121,10 @@ export const selectArticle = (article) => dispatch => {
 
 export const removeArticle = (id) => dispatch => {
   return dispatch({ type: actionTypes.REMOVE_ARTICLE, id})
+}
+
+export const saveArticle = (article) => dispatch => {
+  return dispatch({ type: actionTypes.SAVE_ARTICLE, article})
 }
 
 export const initStore = (initialState = exampleInitialState) => {

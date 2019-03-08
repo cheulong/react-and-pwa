@@ -23,7 +23,7 @@ class Article extends Component {
             <hr/>
           </div>
         <div dangerouslySetInnerHTML={{ __html: selectedArticle.title }}></div>
-          <p className="article-date"><small>20:41 | 3 Feb 2-19 | <a href="/#"><Link to={`/editArticle/${selectedArticle.id}`}><span> Edit </span></Link></a> | <button onClick={()=>{deleteArticle(selectedArticle.id) , Router.back()}}><Link href='/'><span className="remove-btn"> Remove </span></Link></button></small></p>
+          <p className="article-date"><small>20:41 | 3 Feb 2-19 | <Link href="/edit-article"><span> Edit </span></Link>| <button onClick={()=>{deleteArticle(selectedArticle.id) , Router.back()}}><Link href='/'><span className="remove-btn"> Remove </span></Link></button></small></p>
           <hr/>
         <div dangerouslySetInnerHTML={{ __html: selectedArticle.content }}></div> 
         <style jsx>
@@ -69,6 +69,7 @@ const mapStateToProps = ({ selectedArticle }) => ({ selectedArticle })
 
 const mapDispatchToProps = (dispatch) => ({
   deleteArticle: index =>dispatch(removeArticle(index))
+
 })
 
 export default connect(mapStateToProps,mapDispatchToProps)(Article);
