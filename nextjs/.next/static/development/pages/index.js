@@ -14295,7 +14295,7 @@ var initStore = function initStore() {
 
 /***/ }),
 
-/***/ 2:
+/***/ 1:
 /*!*******************************************************************************************************************************!*\
   !*** multi next-client-pages-loader?page=%2F&absolutePagePath=D%3A%5Cweb%5Cstudy%5Creact-and-pwa%5Cnextjs%5Cpages%5Cindex.js ***!
   \*******************************************************************************************************************************/
@@ -14318,5 +14318,5 @@ module.exports = dll_55dc4e2ecf7824085104;
 
 /***/ })
 
-},[[2,"static/runtime/webpack.js"]]]));;
+},[[1,"static/runtime/webpack.js"]]]));;
 //# sourceMappingURL=index.js.map

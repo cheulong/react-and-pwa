@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Link from 'next/link';
 import Router from 'next/router'
 import { connect } from 'react-redux';
-import { removeArticle } from '../store'
+import { removeArticle,selectArticle } from '../store'
 
 class Article extends Component {
   static getInitialProps({query}) {
@@ -32,8 +32,14 @@ class Article extends Component {
     clearInterval(this.interval);
     this.setState({counter:0});
   }
+  onselectArticle(id){
+    this.props.selectArticle1(id);
+    this.startTime();
+    this.setState({loading:true});
+
+  }
   render() {
-    const { deleteArticle, selectedArticle}= this.props;
+    const { deleteArticle, selectedArticle, articles}= this.props;
 
     // console.log('hi',this.props.activeArticle.article.activeArticle);
     
@@ -53,8 +59,15 @@ class Article extends Component {
                  `}
                  </style>
         </div>}
-        {!this.state.loading && 
+        { !this.state.loading &&
         <div className="article-content App">
+        <div className="sideBar">
+          <ul>
+            {articles.map((article) =>{return <li className={(article.id===selectedArticle.id ? "active" : "")} onClick={()=> this.onselectArticle(article)} dangerouslySetInnerHTML={{ __html: article.title }}></li>}  )}
+            
+          </ul>
+        </div>
+        <div>
         <Link href='/'><h2>&lt; home</h2></Link>            
 
         <div className="page-title">
@@ -65,12 +78,20 @@ class Article extends Component {
           <p className="article-date"><small>20:41 | 3 Feb 2-19 | <Link href="/edit-article"><span> Edit </span></Link>| <button onClick={()=>{deleteArticle(selectedArticle.id) , Router.back()}}><Link href='/'><span className="remove-btn"> Remove </span></Link></button></small></p>
           <hr/>
         <div dangerouslySetInnerHTML={{ __html: selectedArticle.content }}></div> 
+        </div>
         <style jsx>
           {`
+          .sideBar{
+            float: left;
+            height: 100vh;
+            background:#EBEBEB;
+            width:15%;
+          }
              .App {
+
               text-align: center;
-             width: 80%;
   margin: auto;
+  margin-top:0;
             color: gray;
              font-family: Arial;
            }
@@ -80,12 +101,21 @@ class Article extends Component {
              margin-top: 50px;
           
            }
+           .active{
+            background: white;
+           }
+           li:hover{
+             background: white;
+           }
           .article-subtitle {
             margin: 0;
           }
           
           .article-content {
             text-align: start;
+          }
+          .article-content h2{
+            margin-top:0;
           }
           .title {
             text-transform: uppercase;
@@ -107,11 +137,11 @@ class Article extends Component {
   }
 }
 
-const mapStateToProps = ({ selectedArticle }) => ({ selectedArticle })
+const mapStateToProps = ({ selectedArticle, articles }) => ({ selectedArticle,articles })
 
 const mapDispatchToProps = (dispatch) => ({
-  deleteArticle: index =>dispatch(removeArticle(index))
-
+  deleteArticle: index =>dispatch(removeArticle(index)),
+  selectArticle1: article =>dispatch(selectArticle(article))
 })
 
 export default connect(mapStateToProps,mapDispatchToProps)(Article);
