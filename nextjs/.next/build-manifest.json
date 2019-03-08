@@ -11,6 +11,10 @@
       "static/runtime/webpack.js",
       "static/runtime/main.js"
     ],
+    "/edit-article": [
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
+    ],
     "/article": [
       "static/runtime/webpack.js",
       "static/runtime/main.js"

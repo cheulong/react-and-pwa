@@ -8,14 +8,53 @@ class Article extends Component {
   static getInitialProps({query}) {
     return {query}
   }
-
+  constructor(props) {
+    super(props);
+    this.state = {counter: 0, loading: true};
+  }
+  componentDidMount() {
+    this.startTime();
+    
+  }
+  startTime(){
+    this.interval = setInterval(() => {
+      console.log(this.state.counter)
+      
+        this.setState({counter: this.state.counter + 1});
+        if(this.state.counter>3){
+          this.setState({loading:false});
+          this.clearInterterval();
+      
+          }
+    }, 1000);
+  }
+  clearInterterval(){
+    clearInterval(this.interval);
+    this.setState({counter:0});
+  }
   render() {
     const { deleteArticle, selectedArticle}= this.props;
 
     // console.log('hi',this.props.activeArticle.article.activeArticle);
     
     return (
-      <div className="article-content App">
+    <div>
+      {this.state.loading && <div>
+        {this.state.counter}
+        <h1 className="App">Loading...</h1>
+        <style jsx>
+                   {` 
+                  .App {
+                    text-align: center;
+                   width: 80%;
+        margin: auto;
+                  color: gray;
+                   font-family: Arial;
+                 `}
+                 </style>
+        </div>}
+        {!this.state.loading && 
+        <div className="article-content App">
         <Link href='/'><h2>&lt; home</h2></Link>            
 
         <div className="page-title">
@@ -60,7 +99,10 @@ class Article extends Component {
           }
           `}
           </style>
-      </div>
+      </div>}
+    </div>
+
+      
     );
   }
 }
