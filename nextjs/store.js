@@ -42,7 +42,8 @@ export const actionTypes = {
   REMOVE_ARTICLE: 'REMOVE_ARTICLE',
   SELECT_ARTICLE: 'SELECT_ARTICLE',
   SAVE_ARTICLE: 'SAVE_ARTICLE',
-  ADD_ARTICLE: 'ADD_ARTICLE'
+  ADD_ARTICLE: 'ADD_ARTICLE',
+  CHANGE_ARTICLE: 'CHANGE_ARTICLE'
 
 }
 
@@ -73,6 +74,26 @@ export const reducer = (state = exampleInitialState, action) => {
       selectedArticle: action.article
     })
 
+    case actionTypes.CHANGE_ARTICLE:
+    const newState3 = state.articles;
+    let objIndex3 = newState3.findIndex(obj => obj.id === action.updateArticle.id); 
+    if(action.updateArticle.symbol==='-'){
+      if(objIndex3===0){
+        objIndex3=newState3.length;
+      }
+      return Object.assign({}, state, {
+        selectedArticle: newState3[objIndex3-1]
+      })
+    }else {
+      if(objIndex3===newState3.length-1){
+        objIndex3=-1;
+      }
+      return Object.assign({}, state, {
+        selectedArticle: newState3[objIndex3+1]
+      })
+    }
+    
+
     case actionTypes.SAVE_ARTICLE:
     const newState =state.articles;     
     const objIndex = newState.findIndex((obj => obj.id === action.article.id)); 
@@ -89,8 +110,7 @@ export const reducer = (state = exampleInitialState, action) => {
     const newState1 = Object.assign([], state.articles); 
         
     const objIndex1 = newState1.findIndex((obj => obj.id === action.id)); 
-    console.log(objIndex1);
-    console.log(action.id);
+
     
     newState1.splice(objIndex1, 1);
     return Object.assign({}, state, {
@@ -136,6 +156,10 @@ export const addArticle = (article) => dispatch => {
 
 export const saveArticle = (article) => dispatch => {
   return dispatch({ type: actionTypes.SAVE_ARTICLE, article})
+}
+
+export const changeArticle = (updateArticle) => dispatch => {
+  return dispatch({ type: actionTypes.CHANGE_ARTICLE, updateArticle})
 }
 
 export const initStore = (initialState = exampleInitialState) => {

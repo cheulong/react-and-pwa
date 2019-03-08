@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Link from 'next/link';
 import Router from 'next/router'
 import { connect } from 'react-redux';
-import { removeArticle,selectArticle } from '../store'
+import { removeArticle,selectArticle,changeArticle } from '../store'
 
 class Article extends Component {
   static getInitialProps({query}) {
@@ -38,6 +38,34 @@ class Article extends Component {
     this.setState({loading:true});
 
   }
+  seeMore(symbol){
+    let text=this.getTitle(symbol);
+    if(text.length>10){
+      return text.slice(0, 10)+'...';
+    }else{
+      return text;
+      
+    }
+  }
+  getTitle(symbol){
+    const newState3=this.props.articles;
+    let objIndex3 = newState3.findIndex(obj => obj.id === this.props.selectedArticle.id); 
+    if(symbol==='-'){
+      if(objIndex3===0){
+        objIndex3=newState3.length;
+      }
+      return  newState3[objIndex3-1].title;
+      
+    }else {
+      if(objIndex3===newState3.length-1){
+        objIndex3=-1;
+      }
+      return  newState3[objIndex3+1].title;
+    }
+  }
+  changeArticle(id,symbol){
+    this.props.changeArticle({id: id, symbol:symbol})
+  }
   render() {
     const { deleteArticle, selectedArticle, articles}= this.props;
 
@@ -45,7 +73,7 @@ class Article extends Component {
     
     return (
     <div>
-      {this.state.loading && <div>
+      {/* {this.state.loading && <div>
         {this.state.counter}
         <h1 className="App">Loading...</h1>
         <style jsx>
@@ -58,8 +86,8 @@ class Article extends Component {
                    font-family: Arial;
                  `}
                  </style>
-        </div>}
-        { !this.state.loading &&
+        </div>} */}
+        {
         <div className="article-content App">
         <div className="sideBar">
           <ul>
@@ -74,13 +102,31 @@ class Article extends Component {
             <h1 className="title">Articles</h1>
             <hr/>
           </div>
+          <div className="main">
         <div dangerouslySetInnerHTML={{ __html: selectedArticle.title }}></div>
           <p className="article-date"><small>20:41 | 3 Feb 2-19 | <Link href="/edit-article"><span> Edit </span></Link>| <button onClick={()=>{deleteArticle(selectedArticle.id) , Router.back()}}><Link href='/'><span className="remove-btn"> Remove </span></Link></button></small></p>
           <hr/>
         <div dangerouslySetInnerHTML={{ __html: selectedArticle.content }}></div> 
         </div>
+        <div className="row">
+        <div className="left" onClick={()=>this.changeArticle(selectedArticle.id,'-')} dangerouslySetInnerHTML={{ __html: '<h2><</h2>'+this.seeMore('-') }}></div>
+        <div className="right" onClick={()=>this.changeArticle(selectedArticle.id,'+')} dangerouslySetInnerHTML={{ __html: this.seeMore('+')+'<h2>></h2>' }}></div>
+        </div>
+        </div>
         <style jsx>
           {`
+          .main{
+            margin-bottom:150px;
+          }
+          .left, .right{
+            display:flex;
+          }
+          .row{
+            display:flex;
+            justify-content:space-between;
+            width:60%;
+            margin:auto;
+          }
           .sideBar{
             float: left;
             height: 100vh;
@@ -141,7 +187,8 @@ const mapStateToProps = ({ selectedArticle, articles }) => ({ selectedArticle,ar
 
 const mapDispatchToProps = (dispatch) => ({
   deleteArticle: index =>dispatch(removeArticle(index)),
-  selectArticle1: article =>dispatch(selectArticle(article))
+  selectArticle1: article =>dispatch(selectArticle(article)),
+  changeArticle: order => dispatch(changeArticle(order))
 })
 
 export default connect(mapStateToProps,mapDispatchToProps)(Article);
