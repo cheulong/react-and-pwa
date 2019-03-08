@@ -17,7 +17,7 @@ class Articles extends Component {
   };
 
   renderArticleList = () => {
-    return this.state.articleList.map((article,index) => <li></li>);
+    return this.state.articleList.map((article,index) => <li><ArticleBrief article={article} removeArticle={()=>this.removeArticle(index)}/></li>);
   }
 
   render() {
