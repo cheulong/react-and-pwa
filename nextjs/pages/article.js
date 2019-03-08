@@ -73,7 +73,7 @@ class Article extends Component {
     
     return (
     <div>
-      {/* {this.state.loading && <div>
+      {this.state.loading && <div>
         {this.state.counter}
         <h1 className="App">Loading...</h1>
         <style jsx>
@@ -86,8 +86,8 @@ class Article extends Component {
                    font-family: Arial;
                  `}
                  </style>
-        </div>} */}
-        {
+        </div>}
+        {!this.state.loading &&
         <div className="article-content App">
         <div className="sideBar">
           <ul>

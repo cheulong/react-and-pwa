@@ -64,7 +64,7 @@ class Articles extends Component {
                       <h1 className="title">Articles</h1>
                     </div>
                   {articles.map((article) =>  <div className="article-brief-container">
-                <Link href={{ pathname: '/article', query: { id: `${article.id}` } }} as={"/article/"+`${article.id}`}><span onClick= {()=> selectArticle(article)}  dangerouslySetInnerHTML={{__html: article.title}}></span></Link>
+                <Link href='/article'><span onClick= {()=> selectArticle(article)}  dangerouslySetInnerHTML={{__html: article.title}}></span></Link>
       <p className="article-date"><small>20:41 | 3 Feb 2-19 | <Link href="/edit-article" ><span onClick= {()=> selectArticle(article)}> Edit</span></Link> | <button onClick= {()=> this.onRemove(article.id)}><span className="remove-btn"> Remove </span></button></small></p>
         </div>)}
                 </div>
