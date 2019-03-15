@@ -110,8 +110,10 @@ export const reducer = (state = exampleInitialState, action) => {
     const newState1 = Object.assign([], state.articles); 
         
     const objIndex1 = newState1.findIndex((obj => obj.id === action.id)); 
+    Object.assign([], state, {
+      selectedArticle: state.articles[0]
+    })
 
-    
     newState1.splice(objIndex1, 1);
     return Object.assign({}, state, {
       articles: newState1

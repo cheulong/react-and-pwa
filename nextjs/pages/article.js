@@ -50,11 +50,16 @@ class Article extends Component {
   getTitle(symbol){
     const newState3=this.props.articles;
     let objIndex3 = newState3.findIndex(obj => obj.id === this.props.selectedArticle.id); 
+
+    
     if(symbol==='-'){
       if(objIndex3===0){
         objIndex3=newState3.length;
+        
+      } else if(objIndex3===-1) {
+        objIndex3=1;
       }
-      return  newState3[objIndex3-1].title;
+        return  newState3[objIndex3-1].title;
       
     }else {
       if(objIndex3===newState3.length-1){
