@@ -4,8 +4,6 @@ import draftToHtml from 'draftjs-to-html';
 import { connect } from 'react-redux';
 import htmlToDraft from 'html-to-draftjs';
 import Link from 'next/link';
-import NoSSR from 'react-no-ssr';
-import article from '../pages/article';
 import { addArticle } from '../store'
 
 class AddArticle extends Component {
@@ -96,7 +94,6 @@ class AddArticle extends Component {
 
 
   render() {
-    const { selectedArticle}= this.props;
     const { editorState,editorState1 } = this.state;
 
     return(

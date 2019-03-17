@@ -70,9 +70,9 @@ export const reducer = (state = exampleInitialState, action) => {
       return Object.assign({}, state);
 
     case actionTypes.SELECT_ARTICLE:
-    return Object.assign({}, state, {
+    return (() => Object.assign({}, state, {
       selectedArticle: action.article
-    })
+    }))
 
     case actionTypes.CHANGE_ARTICLE:
     const newState3 = state.articles;
@@ -145,7 +145,7 @@ export const showArticles = () => dispatch => {
 }
 
 export const selectArticle = (article) => dispatch => {
-  return dispatch({ type: actionTypes.SELECT_ARTICLE, article })
+  return (() => dispatch({ type: actionTypes.SELECT_ARTICLE, article }))
 }
 
 export const removeArticle = (id) => dispatch => {
