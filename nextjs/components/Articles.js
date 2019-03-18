@@ -35,7 +35,6 @@ class Articles extends Component {
   }
   componentWillMount() {
     this.props.showArticles();
-    console.log('articel',this.props.articles);
   }
   render(){
     const {articles, selectArticle } = this.props
