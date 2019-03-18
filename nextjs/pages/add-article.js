@@ -5,7 +5,7 @@ const DynamicComponentWithNoSSR1 = dynamic(() => import('../components/AddArticl
   ssr: false
 })
 
-class AddArticle extends Component {
+export class AddArticle extends Component {
 
 
   render() {
@@ -16,5 +16,3 @@ class AddArticle extends Component {
     )
   }
 }
-
-export default AddArticle;

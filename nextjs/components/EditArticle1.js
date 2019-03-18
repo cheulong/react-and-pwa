@@ -4,8 +4,6 @@ import draftToHtml from 'draftjs-to-html';
 import { connect } from 'react-redux';
 import htmlToDraft from 'html-to-draftjs';
 import Link from 'next/link';
-import NoSSR from 'react-no-ssr';
-import article from '../pages/article';
 import { saveArticle } from '../store'
 
 class EditArticle1 extends Component {

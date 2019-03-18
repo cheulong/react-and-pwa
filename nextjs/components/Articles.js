@@ -1,7 +1,5 @@
 import Link from 'next/link'
 import { connect } from 'react-redux'
-import Clock from './Clock'
-import AddCount from './AddCount'
 import React, { Component } from 'react'
 import { removeArticle, selectArticle,showArticles } from '../store'
 
@@ -37,10 +35,9 @@ class Articles extends Component {
   }
   componentWillMount() {
     this.props.showArticles();
-    console.log('articel',this.props.articles);
   }
   render(){
-    const {articles, deleteArticle, selectArticle } = this.props
+    const {articles, selectArticle } = this.props
     return(
       <div>
       {this.state.loading && <div>

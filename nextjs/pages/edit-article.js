@@ -5,7 +5,7 @@ const DynamicComponentWithNoSSR = dynamic(() => import('../components/EditArticl
   ssr: false
 })
 
-class EditArticle extends Component {
+export class EditArticle extends Component {
 
 
   render() {
@@ -16,5 +16,3 @@ class EditArticle extends Component {
     )
   }
 }
-
-export default EditArticle;
